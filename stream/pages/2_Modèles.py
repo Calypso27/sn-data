@@ -1,3 +1,4 @@
+import os
 import streamlit as st
 import pandas as pd
 import joblib
@@ -17,15 +18,24 @@ st.write(
 @st.cache_resource
 def load_model_data():
     try:
-        model_data = joblib.load("models/juice_model.pkl")
+        pages_dir = os.path.dirname(__file__)              
+        stream_dir = os.path.dirname(pages_dir)            
+
+
+        model_path = os.path.join(stream_dir, "models", "juice_model.pkl")
+
+        
+
+        model_data = joblib.load(model_path)
         return model_data
-    except Exception:
+    except Exception as e:
+        st.error(f"Modèle non trouvé ou erreur de chargement : {e}")
         return None
 
 model_data = load_model_data()
 
 if model_data is None:
-    st.error("Le fichier `models/juice_model.pkl` est introuvable. Entraîne d'abord le modèle.")
+    st.error("Le fichier `stream/models/juice_model.pkl` est introuvable. Entraîne d'abord le modèle.")
 else:
     st.success("✅ Modèle final chargé avec succès.")
     st.write("### Modèle sélectionné")
@@ -39,7 +49,6 @@ else:
     st.write("### Variables d'entrée utilisées")
     st.write(model_data.get("feature_names", []))
 
-    # Petite table récap des performances
     st.write("### Récapitulatif des performances (exemple)")
     perf_df = pd.DataFrame(
         [
