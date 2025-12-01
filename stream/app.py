@@ -1,3 +1,4 @@
+import os
 import streamlit as st
 import joblib
 import warnings
@@ -43,14 +44,22 @@ with st.sidebar:
 @st.cache_resource
 def load_model():
     try:
-        model_data = joblib.load("models/juice_model.pkl")
+
+        stream_dir = os.path.dirname(__file__)
+        
+        model_path = os.path.join(stream_dir, "models", "juice_model.pkl")
+
+        model_data = joblib.load(model_path)
         return model_data
     except Exception:
         return None
 
 model_data = load_model()
 
-st.markdown("<h1 class='main-title'>🍊 Application de Prédiction de Qualité de Jus</h1>", unsafe_allow_html=True)
+st.markdown(
+    "<h1 class='main-title'>🍊 Application de Prédiction de Qualité de Jus</h1>",
+    unsafe_allow_html=True,
+)
 
 if model_data:
     st.success("✅ Modèle final chargé avec succès.")
