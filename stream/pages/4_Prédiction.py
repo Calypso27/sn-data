@@ -1,3 +1,4 @@
+import os
 import streamlit as st
 import joblib
 import numpy as np
@@ -10,7 +11,16 @@ st.title("🎯 Prédiction Locale de Qualité de Jus")
 
 @st.cache_resource
 def load_model_data():
-    return joblib.load("models/juice_model.pkl")
+    # Dossier courant du fichier : SN/stream/pages
+    pages_dir = os.path.dirname(__file__)
+    # Dossier stream : parent de pages
+    stream_dir = os.path.dirname(pages_dir)
+
+    # Modèle situé dans SN/stream/models/juice_model.pkl
+    model_path = os.path.join(stream_dir, "models", "juice_model.pkl")
+
+    model_data = joblib.load(model_path)
+    return model_data
 
 try:
     model_data = load_model_data()
