@@ -108,7 +108,6 @@ if submit:
                             <div style='font-size: 3rem;'>{quality_info['emoji']}</div>
                             <h3 style='color: {quality_info['color']};'>{quality_info['text']}</h3>
                             <p>Label API : <b>{label}</b> (classe {raw})</p>
-                            <p>Confiance : <b>{confidence*100:.1f}%</b> si disponible</p>
                         </div>
                         """,
                         unsafe_allow_html=True,
